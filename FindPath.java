@@ -67,23 +67,27 @@ public class FindPath {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int v = 49; //vertices no
+        int v = 55; //vertices no
         ArrayList<ArrayList<Nodes>> graph = new ArrayList<>();
         for (int i=0; i<v; i++){
             graph.add(new ArrayList<>());
         }
 
         graph.get(0).add(new Nodes(1, 21.4));
+        graph.get(1).add(new Nodes(0, 21.4));
         graph.get(1).add(new Nodes(2, 41.73));
         graph.get(1).add(new Nodes(3, 82.94));
+        graph.get(1).add(new Nodes(49, 24.50));
         graph.get(2).add(new Nodes(1, 41.73));
         graph.get(2).add(new Nodes(4, 23.51));
         graph.get(2).add(new Nodes(6, 58.59));
         graph.get(3).add(new Nodes(1, 82.94));
         graph.get(3).add(new Nodes(5, 49.90));
+        graph.get(3).add(new Nodes(49, 50.03));
         graph.get(4).add(new Nodes(2, 23.51));
         graph.get(4).add(new Nodes(5, 59.51));
         graph.get(4).add(new Nodes(7, 68.17));
+        graph.get(4).add(new Nodes(49, 44.40));
         graph.get(5).add(new Nodes(3, 49.90));
         graph.get(5).add(new Nodes(4, 59.51));
         graph.get(5).add(new Nodes(8, 35.22));
@@ -97,27 +101,28 @@ public class FindPath {
         graph.get(8).add(new Nodes(48, 30.19));
         graph.get(9).add(new Nodes(5, 31.45));
         graph.get(9).add(new Nodes(10, 26.89));
-        graph.get(9).add(new Nodes(12, 35.22));
+        graph.get(9).add(new Nodes(52, 15.20));
         graph.get(10).add(new Nodes(9, 26.89));
-        graph.get(10).add(new Nodes(11, 35.56));
-        graph.get(11).add(new Nodes(10, 35.56));
+        graph.get(10).add(new Nodes(53, 17.38));
         graph.get(11).add(new Nodes(12, 32.18));
-        graph.get(11).add(new Nodes(14, 45.34));
+        graph.get(11).add(new Nodes(50, 87.78));
+        graph.get(11).add(new Nodes(53, 21.19));
+        graph.get(11).add(new Nodes(54, 26.18));
         graph.get(12).add(new Nodes(8, 31.90));
-        graph.get(12).add(new Nodes(9, 35.22));
         graph.get(12).add(new Nodes(11, 32.18));
-        graph.get(12).add(new Nodes(13, 44.12));
-        graph.get(13).add(new Nodes(12, 44.12));
+        graph.get(12).add(new Nodes(51, 20.53));
+        graph.get(12).add(new Nodes(52, 21.05));
         graph.get(13).add(new Nodes(14, 46.18));
         graph.get(13).add(new Nodes(19, 12.3));
         graph.get(13).add(new Nodes(47, 66.72));
         graph.get(13).add(new Nodes(48, 17.20));
-        graph.get(14).add(new Nodes(11, 45.34));
+        graph.get(13).add(new Nodes(51, 21.09));
         graph.get(14).add(new Nodes(13, 46.18));
         graph.get(14).add(new Nodes(19, 49.34));
         graph.get(14).add(new Nodes(21, 36.76));
         graph.get(14).add(new Nodes(29, 32.39));
         graph.get(14).add(new Nodes(38, 98.66));
+        graph.get(14).add(new Nodes(54, 22.49));
         graph.get(15).add(new Nodes(6, 39.94));
         graph.get(15).add(new Nodes(16, 12.23));
         graph.get(15).add(new Nodes(47, 49.11));
@@ -165,6 +170,7 @@ public class FindPath {
         graph.get(31).add(new Nodes(32, 14.88));
         graph.get(31).add(new Nodes(33, 18.86));
         graph.get(32).add(new Nodes(31, 14.88));
+        graph.get(32).add(new Nodes(50, 23.41));
         graph.get(33).add(new Nodes(31, 18.86));
         graph.get(33).add(new Nodes(34, 25.53));
         graph.get(33).add(new Nodes(37, 14));
@@ -202,6 +208,19 @@ public class FindPath {
         graph.get(48).add(new Nodes(7, 60.65));
         graph.get(48).add(new Nodes(8, 30.19));
         graph.get(48).add(new Nodes(13, 17.20));
+        graph.get(49).add(new Nodes(1, 24.50));
+        graph.get(49).add(new Nodes(3, 50.03));
+        graph.get(49).add(new Nodes(4, 44.0));
+        graph.get(50).add(new Nodes(11, 87.78));
+        graph.get(50).add(new Nodes(32, 23.41));
+        graph.get(51).add(new Nodes(12, 20.53));
+        graph.get(51).add(new Nodes(13, 21.09));
+        graph.get(52).add(new Nodes(9, 15.20));
+        graph.get(52).add(new Nodes(12, 21.05));
+        graph.get(53).add(new Nodes(10, 17.38));
+        graph.get(53).add(new Nodes(11, 21.19));
+        graph.get(54).add(new Nodes(11, 26.18));
+        graph.get(54).add(new Nodes(14, 22.49));
 
         int[] prenode = new int[v];
 
@@ -246,10 +265,12 @@ public class FindPath {
         }
 
         ArrayList<Integer> path = createpath(nearestVertice, prenode);
-        System.out.println("\nThe path from " + source + " and " + destination + " is:");
+        System.out.println("\nThe path from " + source + " to " + destination + " is:");
+        System.out.print(source + " ");
         for (int i=0; i<path.size(); i++){
             System.out.print("> " + path.get(i) + " ");
         }
+        System.out.print("> " + destination);
         System.out.println("\nThe distance from " + source + " and " + destination + " is: " + shortestDistance + "m.");
     }
 }
