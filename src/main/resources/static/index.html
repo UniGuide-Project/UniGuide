@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniGuide</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>UniGuide</h1>
+        </div>
+        <div class="search_container">
+            <div class="ipstuff">
+                <input type="text" id="source" placeholder="Start Location">
+                <button id="getLoc"><img src="cLoc.png" alt="getLocation"></button>
+            </div>
+            <input type="text" id="destination" placeholder="End Location">
+            <button id="search_btn">Search</button>
+
+            <div id="response"></div>
+
+            <div class="quick_access">
+                <button onclick="setDest(this)">Hubble</button>
+                <button onclick="setDest(this)">Gandhi Chowk</button>
+                <button onclick="setDest(this)">Food Court</button>
+                <button onclick="setDest(this)">MAC</button>
+            </div>
+        </div>
+        <div class="image_container"></div>
+    </div>
+    <script>
+        document.getElementById('getLoc').onclick = function() {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                document.getElementById('source').value = `${latitude},${longitude}`;
+            }, function(error) {
+                alert("Error retrieving location: " + error.message);
+            });
+        };
+
+        function setDest(button){
+            document.getElementById('destination').value = button.textContent;
+        }
+
+        document.getElementById('search_btn').addEventListener('click', async function(e) {
+            e.preventDefault();
+            const source = document.getElementById('source').value;
+            const destination = document.getElementById('destination').value;
+
+            const response = await fetch('/api/getPath', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ source, destination })
+            });
+            if (response.ok) {
+                const data = await response.json();
+                if (data.path != -1 && data.totalDistance != -1) {
+                    document.getElementById('response').innerHTML = 'Path: ' + data.path.join(">") + ' <br> Distance: ' + data.totalDistance;
+                }
+                else if(data.path[0] == -1) {
+                    document.getElementById('response').innerHTML = 'The source does not exist.'
+                }
+                else if (data.path[1] == -1) {
+                    document.getElementById('response').innerHTML = 'The destination does not exist.'
+                }
+            }
+            else {
+                document.getElementById('response').innerHTML = 'Error retrieving path. Please try again.';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,5 +1,7 @@
 //By Akansh Grover
 
+package com.Akansh.UniGuide.service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -8,6 +10,10 @@ import java.util.Scanner;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.springframework.stereotype.Service;
+import com.Akansh.UniGuide.model.InfoResponse;
+
+@Service
 public class FindPath {
     static class Nodes{
         int vertex;
@@ -65,60 +71,57 @@ public class FindPath {
         return finalpath;
     }
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static InfoResponse getPathandDis(String source, String destination) {
         int v = 55; //vertices no
         ArrayList<ArrayList<Nodes>> graph = GraphInfo.getVerticeInfo(v);
 
         int[] prenode = new int[v];
-
-        System.out.print("Enter source: ");
-        String source = sc.nextLine();
         int[] source_nodes = FinalizeUserIP.returnBlock(source);
-        while (source_nodes[0] == -1){
-            System.out.print("Source does not exist\n");
-            System.out.print("Enter source: ");
-            source = sc.nextLine();
-            source_nodes = FinalizeUserIP.returnBlock(source);
-        }
+        
         int source_node = source_nodes[0];
 
-        System.out.print("Enter destination: ");
-        String destination =sc.nextLine();
         int[] destination_nodes = FinalizeUserIP.returnBlock(destination);
-        while (destination_nodes[0] == -1){
-            System.out.print("Destination does not exist\n");
-            System.out.print("Enter Destination: ");
-            destination = sc.nextLine();
-            destination_nodes = FinalizeUserIP.returnBlock(destination);
-        }
 
-        double[] distance = Dijkstra(v, source_node, graph, prenode);
-
-        TreeMap<Double, Integer> sortedDis = new TreeMap<>();
-        int nearestVertice = -1;
-        double shortestDistance = -1;
-
-        if (destination_nodes.length > 1){
-            for (int i=0; i<destination_nodes.length; i++){
-                int vertice = destination_nodes[i];
-                sortedDis.put(distance[vertice], destination_nodes[i]);
+        if (source_nodes[0] != -1 && destination_nodes[0] != -1){
+            double[] distance = Dijkstra(v, source_node, graph, prenode);
+    
+            TreeMap<Double, Integer> sortedDis = new TreeMap<>();
+            int nearestVertice = -1;
+            double shortestDistance = -1;
+    
+            if (destination_nodes.length > 1){
+                for (int i=0; i<destination_nodes.length; i++){
+                    int vertice = destination_nodes[i];
+                    sortedDis.put(distance[vertice], destination_nodes[i]);
+                }
+                shortestDistance = sortedDis.firstKey();
+                nearestVertice = sortedDis.get(shortestDistance);
             }
-            shortestDistance = sortedDis.firstKey();
-            nearestVertice = sortedDis.get(shortestDistance);
+            else if (destination_nodes.length == 1){
+                nearestVertice = destination_nodes[0];
+                shortestDistance = distance[nearestVertice];
+            }
+    
+            ArrayList<Integer> path = createpath(nearestVertice, prenode);
+            return new InfoResponse(path, shortestDistance);
         }
-        else if (destination_nodes.length == 1){
-            nearestVertice = destination_nodes[0];
-            shortestDistance = distance[nearestVertice];
+        else if (destination_nodes[0]==-1){
+            ArrayList<Integer> emptyPath = new ArrayList<>();
+            emptyPath.add(0);
+            emptyPath.add(-1);
+            return new InfoResponse(emptyPath, -1);
         }
-
-        ArrayList<Integer> path = createpath(nearestVertice, prenode);
-        System.out.println("\nThe path from " + source + " to " + destination + " is:");
-        System.out.print(source + " ");
-        for (int i=0; i<path.size(); i++){
-            System.out.print("> " + path.get(i) + " ");
+        else if (source_nodes[0]==-1){
+            ArrayList<Integer> emptyPath = new ArrayList<>();
+            emptyPath.add(-1);
+            emptyPath.add(0);
+            return new InfoResponse(emptyPath, -1);
         }
-        System.out.print("> " + destination);
-        System.out.println("\nThe distance from " + source + " and " + destination + " is: " + shortestDistance + "m.");
+        else {
+            ArrayList<Integer> emptyPath = new ArrayList<>();
+            emptyPath.add(-2);
+            emptyPath.add(-2);
+            return new InfoResponse(emptyPath, -1);
+        }
     }
 }

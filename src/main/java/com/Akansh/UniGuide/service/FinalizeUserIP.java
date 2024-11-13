@@ -1,5 +1,7 @@
 //By Akansh Grover
 
+package com.Akansh.UniGuide.service;
+
 import java.util.HashMap;
 
 public class FinalizeUserIP {
