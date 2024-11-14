@@ -62,6 +62,7 @@ public class IRLCoordsInfo {
         irl_coords.put(52, new Double[] {30.4160665, 77.9678370});
         irl_coords.put(53, new Double[] {30.4159964, 77.9681964});
         irl_coords.put(54, new Double[] {30.4163519, 77.9683323});
+        irl_coords.put(55, new Double[] {30.4164245, 77.9665643}); 
         return irl_coords;
     }
 }

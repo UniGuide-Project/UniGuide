@@ -72,7 +72,7 @@ public class FindPath {
     }
 
     public static InfoResponse getPathandDis(String source, String destination) {
-        int v = 55; //vertices no
+        int v = 56; //vertices no
         ArrayList<ArrayList<Nodes>> graph = GraphInfo.getVerticeInfo(v);
 
         int[] prenode = new int[v];

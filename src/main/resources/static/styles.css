@@ -112,3 +112,35 @@ body {
 .quick_access button:hover {
     background-color: #e0e0e0;
 }
+
+#response_container {
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    display:none;
+    border-radius: 5px;
+}
+
+#response_container > p {
+    text-align: center;
+}
+
+.image_container {
+    margin-top: 10px;
+    width: 100%;     
+    height: auto;    
+    overflow: hidden;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+  }
+  
+  #zoomable-image {
+    border-radius: 5px;
+  }
+  

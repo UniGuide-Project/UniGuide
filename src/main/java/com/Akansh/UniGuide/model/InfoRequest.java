@@ -14,7 +14,7 @@ public class InfoRequest {
     }
 
     public String getDestination() {
-         return destination; 
+        return destination; 
     }
     public void setDestination(String destination) { 
         this.destination = destination; 

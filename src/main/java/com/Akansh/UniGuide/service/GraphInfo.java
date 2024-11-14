@@ -17,7 +17,7 @@ public class GraphInfo {
         graph.get(1).add(new FindPath.Nodes(49, 24.50));
         graph.get(2).add(new FindPath.Nodes(1, 41.73));
         graph.get(2).add(new FindPath.Nodes(4, 23.51));
-        graph.get(2).add(new FindPath.Nodes(6, 58.59));
+        graph.get(2).add(new FindPath.Nodes(55, 27.34));
         graph.get(3).add(new FindPath.Nodes(1, 82.94));
         graph.get(3).add(new FindPath.Nodes(5, 49.90));
         graph.get(3).add(new FindPath.Nodes(49, 50.03));
@@ -29,8 +29,8 @@ public class GraphInfo {
         graph.get(5).add(new FindPath.Nodes(4, 59.51));
         graph.get(5).add(new FindPath.Nodes(8, 35.22));
         graph.get(5).add(new FindPath.Nodes(9, 31.45));
-        graph.get(6).add(new FindPath.Nodes(2, 58.59));
         graph.get(6).add(new FindPath.Nodes(15, 39.94));
+        graph.get(6).add(new FindPath.Nodes(55, 37.07));
         graph.get(7).add(new FindPath.Nodes(4, 68.17));
         graph.get(7).add(new FindPath.Nodes(48, 60.65));
         graph.get(8).add(new FindPath.Nodes(5, 35.22));
@@ -52,7 +52,6 @@ public class GraphInfo {
         graph.get(13).add(new FindPath.Nodes(14, 46.18));
         graph.get(13).add(new FindPath.Nodes(19, 12.3));
         graph.get(13).add(new FindPath.Nodes(47, 66.72));
-        graph.get(13).add(new FindPath.Nodes(48, 17.20));
         graph.get(13).add(new FindPath.Nodes(51, 21.09));
         graph.get(14).add(new FindPath.Nodes(13, 46.18));
         graph.get(14).add(new FindPath.Nodes(19, 49.34));
@@ -144,7 +143,6 @@ public class GraphInfo {
         graph.get(47).add(new FindPath.Nodes(46, 12.3));
         graph.get(48).add(new FindPath.Nodes(7, 60.65));
         graph.get(48).add(new FindPath.Nodes(8, 30.19));
-        graph.get(48).add(new FindPath.Nodes(13, 17.20));
         graph.get(49).add(new FindPath.Nodes(1, 24.50));
         graph.get(49).add(new FindPath.Nodes(3, 50.03));
         graph.get(49).add(new FindPath.Nodes(4, 44.0));
@@ -158,6 +156,8 @@ public class GraphInfo {
         graph.get(53).add(new FindPath.Nodes(11, 21.19));
         graph.get(54).add(new FindPath.Nodes(11, 26.18));
         graph.get(54).add(new FindPath.Nodes(14, 22.49));
+        graph.get(55).add(new FindPath.Nodes(2, 27.34));
+        graph.get(55).add(new FindPath.Nodes(6, 37.07));
         return graph;
     }
 }
