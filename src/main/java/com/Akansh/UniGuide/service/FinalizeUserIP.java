@@ -58,34 +58,8 @@ public class FinalizeUserIP {
                 }
             }
             else{
-                // int vertice = NearestVertice.get_nearest_vertice(rawip);
-                // if (vertice != -1){
-                //     return new int[] {vertice};
-                // }
-                // else{
-                //     return new int[] {-1};
-                // }
                 return new int[] {-1};
             }
         }
-    }
-
-    public static int[] returnInfo(String r){
-        int[] fr = new int[2];
-        String[] t;
-        if (r.length() == 6){
-            t = breakRoomNo(r, 6);
-        }
-        else if (r.length() == 5){
-            t = breakRoomNo(r, 5);
-        }
-        else{
-            t = new String[] {"-1"};
-        }
-        if (!t[0].equals("-1")){
-            fr[0] = Integer.parseInt(t[1]);
-            fr[1] = Integer.parseInt(t[2]);
-        }
-        return fr;
     }
 }

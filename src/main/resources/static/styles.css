@@ -144,3 +144,33 @@ body {
     border-radius: 5px;
   }
   
+  #roominfo {
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    display: none;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#roominfo table {
+    margin: 0 auto;
+    border-radius: 5px;
+    border-spacing: 0;
+    border: 1px solid black;
+    overflow: hidden;
+}
+
+#roominfo th, #roominfo td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid black;
+}
+
+#roominfo table, #roominfo th, #roominfo td {
+    border-collapse: separate;
+    text-align: center;
+}

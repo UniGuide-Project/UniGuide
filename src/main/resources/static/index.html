@@ -16,7 +16,7 @@
                 <input type="text" id="source" placeholder="Start Location">
                 <button id="getLoc"><img src="cLoc.png" alt="getLocation"></button>
             </div>
-            <input type="text" id="destination" placeholder="End Location">
+            <input type="text" id="destination" placeholder="End Location" onblur="getFloorandRoom(this)">
             <button id="search_btn">Search</button>
             <div class="quick_access">
                 <button onclick="setDest(this)">Hubble</button>
@@ -26,11 +26,41 @@
             </div>
         </div>
         <div id="response_container"><p id="response"></p></div>
+        <div id="roominfo">
+            <table>
+                <tr>
+                    <th>Block</th>
+                    <th>Floor</th>
+                    <th>Room</th>
+                </tr>
+                <tr>
+                    <td id="block"></td>
+                    <td id="floor"></td>
+                    <td id="room"></td>
+                </tr>
+            </table>
+        </div>
         <div class="image_container">
             <img id="zoomable-image" src="map.svg" alt="Campus Graph">
         </div>
     </div>
     <script>
+        function getFloorandRoom(input){
+            const buttonValue = input.value;
+            if (Number.isInteger(Number(buttonValue)) && buttonValue.length>=5 && buttonValue.length<=6){
+                let roomNumber = buttonValue.padStart(6, '0');
+                let block = roomNumber.substring(0,2);
+                let floor = roomNumber.substring(2, 4);
+                let room = roomNumber.substring(4, 6);
+                document.getElementById('block').textContent = block;
+                document.getElementById('floor').textContent = floor;
+                document.getElementById('room').textContent = room;
+                document.getElementById('roominfo').style.display = "block";
+            }
+            else{
+                document.getElementById('roominfo').style.display = "none";
+            }
+        }
         document.getElementById('getLoc').addEventListener('click', async function(e) {
             e.preventDefault();
             if (navigator.geolocation) {
