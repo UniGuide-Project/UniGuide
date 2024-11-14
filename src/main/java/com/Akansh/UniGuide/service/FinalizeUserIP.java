@@ -58,13 +58,14 @@ public class FinalizeUserIP {
                 }
             }
             else{
-                int vertice = NearestVertice.get_nearest_vertice(rawip);
-                if (vertice != -1){
-                    return new int[] {vertice};
-                }
-                else{
-                    return new int[] {-1};
-                }
+                // int vertice = NearestVertice.get_nearest_vertice(rawip);
+                // if (vertice != -1){
+                //     return new int[] {vertice};
+                // }
+                // else{
+                //     return new int[] {-1};
+                // }
+                return new int[] {-1};
             }
         }
     }

@@ -31,15 +31,33 @@
         </div>
     </div>
     <script>
-        document.getElementById('getLoc').onclick = function() {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-                document.getElementById('source').value = `${latitude},${longitude}`;
-            }, function(error) {
-                alert("Error retrieving location: " + error.message);
-            });
-        };
+        document.getElementById('getLoc').addEventListener('click', async function(e) {
+            e.preventDefault();
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(async function(position) {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+
+                    const response = await fetch('/api/getLoc', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ latitude, longitude })
+                    });
+                    if (response.ok){
+                        const data = await response.json();
+                        if (data.place != "-1"){
+                            document.getElementById('source').value = data.place;
+                        }
+                        else{
+                            document.getElementById('source').value = "You are far away from the campus.";
+                        }
+                    }
+                });
+            }
+            else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        })
 
         function setDest(button){
             document.getElementById('destination').value = button.textContent;
