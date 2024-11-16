@@ -42,12 +42,14 @@ document.getElementById('getLoc').addEventListener('click', async function(e) {
                     document.getElementById('source').value = "You are far away from the campus.";
                 }
             }
+        }, function(){
+            alert("Location access denied. Please enable location services.");
         });
     }
     else {
         alert("Geolocation is not supported by this browser.");
     }
-})
+});
 
 function setDest(button){
     document.getElementById('destination').value = button.textContent;
@@ -91,27 +93,16 @@ function inputChage(){
 
 let zoomLevel = 1;
 const CampusGraph = document.getElementById('zoomable-image');
-function zoomIn(){
-    zoomLevel += 0.1;
-    CampusGraph.style.transform = `scale(${zoomLevel})`;
-}
-function zoomOut(){
-    if (zoomLevel > 1) {
-        zoomLevel -= 0.1;
-        CampusGraph.style.transform = `scale(${zoomLevel})`;
-    }
-}
-
 
 let isDragging = false, startX, startY, posX = 0, posY = 0, initialDistance = 0;
 
 function zoomIn() {
-    zoomLevel = Math.min(zoomLevel + 0.1, 2);
+    zoomLevel = Math.min(zoomLevel + 0.1, 3);
     CampusGraph.style.transform = `translate(${posX}px, ${posY}px) scale(${zoomLevel})`;
 }
 
 function zoomOut() {
-    zoomLevel = Math.max(zoomLevel - 0.1, 0.5);
+    zoomLevel = Math.max(zoomLevel - 0.1, 1.0);
     CampusGraph.style.transform = `translate(${posX}px, ${posY}px) scale(${zoomLevel})`;
 }
 
@@ -129,6 +120,7 @@ const handleTouchStart = (e) => {
 const handleTouchEnd = () => {
     if (isDragging) isDragging = false;
     initialDistance = 0;
+    CampusGraph.style.cursor = "grab"
 };
 
 const handleTouchMove = (e) => {
@@ -141,7 +133,7 @@ const handleTouchMove = (e) => {
     } else if (e.touches.length === 2) {
         const newDistance = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY);
         const scaleChange = newDistance / initialDistance;
-        zoomLevel = Math.max(0.5, Math.min(zoomLevel * scaleChange, 2));
+        zoomLevel = Math.max(1, Math.min(zoomLevel * scaleChange, 3));
         initialDistance = newDistance;
         CampusGraph.style.transform = `translate(${posX}px, ${posY}px) scale(${zoomLevel})`;
     }
@@ -149,7 +141,7 @@ const handleTouchMove = (e) => {
 
 const handleWheel = (e) => {
     e.preventDefault();
-    zoomLevel = Math.max(0.5, Math.min(zoomLevel + (e.deltaY < 0 ? 0.1 : -0.1), 2));
+    zoomLevel = Math.max(1, Math.min(zoomLevel + (e.deltaY < 0 ? 0.1 : -0.1), 3));
     CampusGraph.style.transform = `translate(${posX}px, ${posY}px) scale(${zoomLevel})`;
 };
 
@@ -158,6 +150,7 @@ CampusGraph.addEventListener('mousedown', e => {
     isDragging = true;
     startX = e.pageX - posX;
     startY = e.pageY - posY;
+    CampusGraph.style.cursor = "grab"
 });
 
 CampusGraph.addEventListener('mouseup', handleTouchEnd);
@@ -166,6 +159,7 @@ CampusGraph.addEventListener('mousemove', e => {
         posX = e.pageX - startX;
         posY = e.pageY - startY;
         CampusGraph.style.transform = `translate(${posX}px, ${posY}px) scale(${zoomLevel})`;
+        CampusGraph.style.cursor = "grabbing"
     }
 });
 
