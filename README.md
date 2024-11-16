@@ -4,7 +4,17 @@ UniGuide is a simple application designed to help new students, visitors and sta
 
 <br>Desktop:
 
+
+https://github.com/user-attachments/assets/8ccad95e-cc46-4fb5-8529-1566bf025cd9
+
+
+
 <br>Mobile:
+
+
+https://github.com/user-attachments/assets/44bdab7c-b21e-4c8c-8891-33f50ba23cfb
+
+
 
 ## How to Run
 This project is built using **Java Spring Boot** and **Maven**, so you need to have both **Java** and **Maven** installed on your system.
