@@ -1,18 +1,18 @@
 function getFloorandRoom(){
     const ip = document.getElementById("destination");
     const ipValue = ip.value;
-    if (Number.isInteger(Number(ipValue)) && ipValue.length>=5 && ipValue.length<=6){
-        let roomNumber = ipValue.padStart(6, '0');
-        let block = roomNumber.substring(0,2);
-        let floor = roomNumber.substring(2, 4);
-        let room = roomNumber.substring(4, 6);
+    if (Number.isInteger(Number(ipValue)) && ipValue.length>=4 && ipValue.length<=5){
+        let roomNumber = ipValue.split('').reverse().join('');
+        let block = roomNumber.substring(3).split('').reverse().join('');
+        let floor = roomNumber.substring(2,3).split('').reverse().join('');
+        let room = roomNumber.substring(0,2).split('').reverse().join('');
         if (Number(block) < 12){
             document.getElementById('block').textContent = block;
             document.getElementById('floor').textContent = floor;
             document.getElementById('room').textContent = room;
             document.getElementById('roominfo').style.display = "table";
         }
-        else {
+        else{
             document.getElementById('roominfo').style.display = "none";
         }
     }
@@ -69,7 +69,7 @@ document.getElementById('search_btn').addEventListener('click', async function(e
     if (response.ok) {
         const data = await response.json();
         if (data.path != -1 && data.totalDistance != -1) {
-            document.getElementById('response').innerHTML = 'Your path: <br>' + source + " > " + data.path.join(" > ") + " > " + destination + ' <br><br> Distance: ' + data.totalDistance.toFixed(2);
+            document.getElementById('response').innerHTML = 'Your path: <br>' + source + " > " + data.path.join(" > ") + " > " + destination + ' <br><br> Distance: ' + data.totalDistance.toFixed(2) + 'm';
         }
         else if(data.path[0] == -1) {
             document.getElementById('response').innerHTML = 'The source does not exist.';

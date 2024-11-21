@@ -15,18 +15,18 @@ public class FinalizeUserIP {
         }
     }
 
-    static String[] breakRoomNo(String r, int l){
+    static String reverseStr(String r){
+        String temp = "";
+        for (int i=r.length()-1; i>=0; i--){
+            temp = temp + r.charAt(i);
+        }
+        return temp;
+    }
+
+    static String[] breakRoomNo(String r){
         String[] info = new String[3];
-        if (l == 6){
-            info[0] = r.substring(0, 2);
-            info[1] = r.substring(2, 4);
-            info[2] = r.substring(4, 6);
-        }
-        else{
-            info[0] = r.substring(0, 1);
-            info[1] = r.substring(1, 3);
-            info[2] = r.substring(3, 5);
-        }
+        String temp = reverseStr(r);
+        info[0] = Integer.toString(Integer.parseInt(reverseStr(temp.substring(3))));//Converted the string to an integer and then back to a string to remove the unnecessary 0
         
         return info;
     }
@@ -40,11 +40,8 @@ public class FinalizeUserIP {
         else{
             if (isNumber(rawip)){
                 String b;
-                if (rawip.length() == 6){
-                    b = "B" + breakRoomNo(rawip,6)[0];
-                }
-                else if (rawip.length() == 5){
-                    b = "B" + breakRoomNo(rawip,5)[0];
+                if (rawip.length() == 4 || rawip.length() == 5){
+                    b = "B" + breakRoomNo(rawip)[0];
                 }
                 else{
                     b = "-1";
