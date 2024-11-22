@@ -51,7 +51,7 @@ public class NearestVertice {
     }
 
     public static LocResponse get_nearest_place(double c_latitude, double c_longitude){
-        int v=56;
+        int v=65;
         HashMap<Integer, Double[]> irl_coords = IRLCoordsInfo.get_irl_coords();
         TreeMap<Double, Integer> distance = new TreeMap<>();
         for (int i=0; i<v; i++){

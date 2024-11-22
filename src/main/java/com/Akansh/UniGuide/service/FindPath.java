@@ -66,13 +66,15 @@ public class FindPath {
         }
         ArrayList<Integer> finalpath = new ArrayList<>();
         for(int i=path.size()-1;i>=0;i--){
-            finalpath.add(path.get(i));
+            if (path.get(i)<57){//dont like this, will change in future
+                finalpath.add(path.get(i));
+            }
         }
         return finalpath;
     }
 
     public static InfoResponse getPathandDis(String source, String destination) {
-        int v = 56; //vertices no
+        int v = 65; //vertices no
         ArrayList<ArrayList<Nodes>> graph = GraphInfo.getVerticeInfo(v);
 
         int[] prenode = new int[v];

@@ -57,12 +57,22 @@ public class IRLCoordsInfo {
         irl_coords.put(47, new Double[] {30.4167682, 77.9674189});
         irl_coords.put(48, new Double[] {30.4165280, 77.9676868});
         irl_coords.put(49, new Double[] {30.4157744, 77.9666863});
-        irl_coords.put(50, new Double[] {30.4159567, 77.9691667});
+        irl_coords.put(50, new Double[] {30.4168386, 77.9672356});
         irl_coords.put(51, new Double[] {30.4164365, 77.9679544});
         irl_coords.put(52, new Double[] {30.4160665, 77.9678370});
         irl_coords.put(53, new Double[] {30.4159964, 77.9681964});
         irl_coords.put(54, new Double[] {30.4163519, 77.9683323});
         irl_coords.put(55, new Double[] {30.4164245, 77.9665643}); 
+        irl_coords.put(56, new Double[] {30.4167062, 77.9671910});
+        //hidden vertices, only used for location detection v
+        irl_coords.put(57, new Double[] {30.4159496, 77.9669864});//hubble
+        irl_coords.put(58, new Double[] {30.4164310, 77.9672108});//b1
+        irl_coords.put(59, new Double[] {30.4172254, 77.9668403});//mac
+        irl_coords.put(60, new Double[] {30.4172546, 77.9676065});//library
+        irl_coords.put(61, new Double[] {30.4171953, 77.9680744});//it
+        irl_coords.put(62, new Double[] {30.4158641, 77.9692836});//b10
+        irl_coords.put(63, new Double[] {30.4157885, 77.9696007});//b11 left
+        irl_coords.put(64, new Double[] {30.4156295, 77.9701572});//b11 right
         return irl_coords;
     }
 }
