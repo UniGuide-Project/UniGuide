@@ -76,11 +76,11 @@ public class FindPath {
         ArrayList<ArrayList<Nodes>> graph = GraphInfo.getVerticeInfo(v);
 
         int[] prenode = new int[v];
-        int[] source_nodes = FinalizeUserIP.returnBlock(source);
+        int[] source_nodes = FinalizeUserIP.returnBlock(source.toLowerCase());
         
         int source_node = source_nodes[0];
 
-        int[] destination_nodes = FinalizeUserIP.returnBlock(destination);
+        int[] destination_nodes = FinalizeUserIP.returnBlock(destination.toLowerCase());
 
         if (source_nodes[0] != -1 && destination_nodes[0] != -1){
             double[] distance = Dijkstra(v, source_node, graph, prenode);

@@ -26,6 +26,17 @@ public class NearestVertice {
         return false;
     }
 
+    static String capitalize(String ip){
+        String[] l = ip.split(" ");
+        String r;
+        for (int i=0; i<l.length; i++){
+            String a = l[i];
+            l[i] = a.substring(0,1).toUpperCase() + a.substring(1);
+        }
+        r = String.join(" ", l);
+        return r;
+    }
+
     static String checkPlace(int n){
         HashMap<String, int[]> coord_nodes = NodeInfo.getNodeInfo();
         String place = "-1";
@@ -33,14 +44,14 @@ public class NearestVertice {
             place = i;
             int[] vs = coord_nodes.get(i);
             if (binarySearch(vs, 0, vs.length-1, n)){
-                return place;
+                return capitalize(place);
             }
         }
         return place;
     }
 
     public static LocResponse get_nearest_place(double c_latitude, double c_longitude){
-        int v=55;
+        int v=56;
         HashMap<Integer, Double[]> irl_coords = IRLCoordsInfo.get_irl_coords();
         TreeMap<Double, Integer> distance = new TreeMap<>();
         for (int i=0; i<v; i++){

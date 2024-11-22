@@ -40,8 +40,8 @@ public class FinalizeUserIP {
         else{
             if (isNumber(rawip)){
                 String b;
-                if (rawip.length() == 4 || rawip.length() == 5){
-                    b = "B" + breakRoomNo(rawip)[0];
+                if (rawip.length() >= 4 && rawip.length() <= 5){
+                    b = "b" + breakRoomNo(rawip)[0];
                 }
                 else{
                     b = "-1";
