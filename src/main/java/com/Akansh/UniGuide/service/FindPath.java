@@ -10,6 +10,8 @@ import java.util.Scanner;
 import java.util.Map;
 import java.util.TreeMap;
 
+import java.util.HashMap;
+
 import org.springframework.stereotype.Service;
 import com.Akansh.UniGuide.model.InfoResponse;
 
@@ -73,6 +75,15 @@ public class FindPath {
         return finalpath;
     }
 
+    public static ArrayList<Double[]> getIRLvertices(ArrayList<Integer> vertices){
+        HashMap<Integer, Double[]> irl_coords = IRLCoordsInfo.get_irl_coords();
+        ArrayList<Double[]> IRLvertices = new ArrayList<>();
+        for (int i=0; i<vertices.size(); i++){
+            IRLvertices.add(irl_coords.get(vertices.get(i)));
+        }
+        return IRLvertices;
+    }
+
     public static InfoResponse getPathandDis(String source, String destination) {
         int v = 65; //vertices no
         ArrayList<ArrayList<Nodes>> graph = GraphInfo.getVerticeInfo(v);
@@ -105,25 +116,32 @@ public class FindPath {
             }
     
             ArrayList<Integer> path = createpath(nearestVertice, prenode);
-            return new InfoResponse(path, shortestDistance);
+            ArrayList<Double[]> pathCoords = getIRLvertices(path);
+            return new InfoResponse(path, shortestDistance, pathCoords);
         }
         else if (destination_nodes[0]==-1){
             ArrayList<Integer> emptyPath = new ArrayList<>();
             emptyPath.add(0);
             emptyPath.add(-1);
-            return new InfoResponse(emptyPath, -1);
+            ArrayList<Double[]> emptyCoords = new ArrayList<>();
+            emptyCoords.add(new Double[] {-1.0});
+            return new InfoResponse(emptyPath, -1, emptyCoords);
         }
         else if (source_nodes[0]==-1){
             ArrayList<Integer> emptyPath = new ArrayList<>();
             emptyPath.add(-1);
             emptyPath.add(0);
-            return new InfoResponse(emptyPath, -1);
+            ArrayList<Double[]> emptyCoords = new ArrayList<>();
+            emptyCoords.add(new Double[] {-1.0});
+            return new InfoResponse(emptyPath, -1, emptyCoords);
         }
         else {
             ArrayList<Integer> emptyPath = new ArrayList<>();
             emptyPath.add(-2);
             emptyPath.add(-2);
-            return new InfoResponse(emptyPath, -1);
+            ArrayList<Double[]> emptyCoords = new ArrayList<>();
+            emptyCoords.add(new Double[] {-1.0});
+            return new InfoResponse(emptyPath, -1, emptyCoords);
         }
     }
 }

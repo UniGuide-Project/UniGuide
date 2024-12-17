@@ -56,6 +56,19 @@ function setDest(button){
     inputChage();
 }
 
+var polylines = [];
+var markers = [];
+
+function drawPath(vertices, s, d) {
+    var sm = L.marker(vertices[0], {"title" : s}).addTo(map).bindPopup(s).openPopup();;
+    var dm = L.marker(vertices[vertices.length-1], {"title" : d}).addTo(map).bindPopup(d).openPopup();;
+    markers.push(sm);
+    markers.push(dm);
+    var path = L.polyline(vertices,  {"weight":5,"color":"#266bf2"}).addTo(map);
+    polylines.push(path);
+    map.fitBounds(path.getBounds());
+}
+
 document.getElementById('search_btn').addEventListener('click', async function(e) {
     e.preventDefault();
     const source = document.getElementById('source').value;
@@ -70,6 +83,7 @@ document.getElementById('search_btn').addEventListener('click', async function(e
         const data = await response.json();
         if (data.path != -1 && data.totalDistance != -1) {
             document.getElementById('response').innerHTML = 'Your path: <br>' + source + " > " + data.path.join(" > ") + " > " + destination + ' <br><br> Distance: ' + data.totalDistance.toFixed(2) + 'm';
+            drawPath(data.pathCoords, source, destination);
         }
         else if(data.path[0] == -1) {
             document.getElementById('response').innerHTML = 'The source does not exist.';
@@ -86,84 +100,15 @@ document.getElementById('search_btn').addEventListener('click', async function(e
 });
 
 function inputChage(){
-    document.getElementById('response_container').style.display="none"
-    document.getElementById('response_container').style.display="none"
+    document.getElementById('response_container').style.display="none";
+    document.getElementById('response_container').style.display="none";
+    polylines.forEach(function (item) {
+        map.removeLayer(item)
+    });
+    markers.forEach(function (item) {
+        map.removeLayer(item)
+    });
 }
 
-
-let zoomLevel = 1;
-const CampusGraph = document.getElementById('zoomable-image');
-
-let isDragging = false, startX, startY, posX = 0, posY = 0, initialDistance = 0;
-
-function zoomIn() {
-    zoomLevel = Math.min(zoomLevel + 0.1, 3);
-    CampusGraph.style.transform = `translate(${posX}px, ${posY}px) scale(${zoomLevel})`;
-}
-
-function zoomOut() {
-    zoomLevel = Math.max(zoomLevel - 0.1, 1.0);
-    CampusGraph.style.transform = `translate(${posX}px, ${posY}px) scale(${zoomLevel})`;
-}
-
-const handleTouchStart = (e) => {
-    if (e.touches.length === 1) {
-        isDragging = true;
-        const touch = e.touches[0];
-        startX = touch.pageX - posX;
-        startY = touch.pageY - posY;
-    } else if (e.touches.length === 2) {
-        initialDistance = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY);
-    }
-};
-
-const handleTouchEnd = () => {
-    if (isDragging) isDragging = false;
-    initialDistance = 0;
-    CampusGraph.style.cursor = "grab"
-};
-
-const handleTouchMove = (e) => {
-    e.preventDefault();
-    if (isDragging && e.touches.length === 1) {
-        const touch = e.touches[0];
-        posX = touch.pageX - startX;
-        posY = touch.pageY - startY;
-        CampusGraph.style.transform = `translate(${posX}px, ${posY}px) scale(${zoomLevel})`;
-    } else if (e.touches.length === 2) {
-        const newDistance = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY);
-        const scaleChange = newDistance / initialDistance;
-        zoomLevel = Math.max(1, Math.min(zoomLevel * scaleChange, 3));
-        initialDistance = newDistance;
-        CampusGraph.style.transform = `translate(${posX}px, ${posY}px) scale(${zoomLevel})`;
-    }
-};
-
-const handleWheel = (e) => {
-    e.preventDefault();
-    zoomLevel = Math.max(1, Math.min(zoomLevel + (e.deltaY < 0 ? 0.1 : -0.1), 3));
-    CampusGraph.style.transform = `translate(${posX}px, ${posY}px) scale(${zoomLevel})`;
-};
-
-CampusGraph.addEventListener('mousedown', e => {
-    e.preventDefault();
-    isDragging = true;
-    startX = e.pageX - posX;
-    startY = e.pageY - posY;
-    CampusGraph.style.cursor = "grab"
-});
-
-CampusGraph.addEventListener('mouseup', handleTouchEnd);
-CampusGraph.addEventListener('mousemove', e => {
-    if (isDragging) {
-        posX = e.pageX - startX;
-        posY = e.pageY - startY;
-        CampusGraph.style.transform = `translate(${posX}px, ${posY}px) scale(${zoomLevel})`;
-        CampusGraph.style.cursor = "grabbing"
-    }
-});
-
-CampusGraph.addEventListener('touchstart', handleTouchStart);
-CampusGraph.addEventListener('touchend', handleTouchEnd);
-CampusGraph.addEventListener('touchmove', handleTouchMove);
-CampusGraph.addEventListener('wheel', handleWheel);
+var map = L.map('map').setView([30.41686387274698, 77.96860215062047], 17);
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {maxZoom: 18, attribution: '&copy; <a href="https://www.esri.com/en-us/arcgis/about-arcgis/what-is-arcgis">Esri</a> &mdash; Esri and others'}).addTo(map);
