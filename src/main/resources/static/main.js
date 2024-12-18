@@ -11,6 +11,7 @@ function getFloorandRoom(){
             document.getElementById('floor').textContent = floor;
             document.getElementById('room').textContent = room;
             document.getElementById('roominfo').style.display = "table";
+            document.getElementById('response_container').style.display="flex";
         }
         else{
             document.getElementById('roominfo').style.display = "none";
@@ -20,6 +21,9 @@ function getFloorandRoom(){
         document.getElementById('roominfo').style.display = "none";
     }
 }
+
+var sourceCoords;
+var isLocUsed;
 
 document.getElementById('getLoc').addEventListener('click', async function(e) {
     e.preventDefault();
@@ -37,9 +41,16 @@ document.getElementById('getLoc').addEventListener('click', async function(e) {
                 const data = await response.json();
                 if (data.place != "-1"){
                     document.getElementById('source').value = data.place;
+                    sourceCoords = [[latitude, longitude]];
+                    isLocUsed = true;
+                    inputChange();
+                    drawPath(sourceCoords, "Current location");
                 }
                 else{
                     document.getElementById('source').value = "You are far away from the campus.";
+                    sourceCoords = [];
+                    isLocUsed = false;
+                    inputChange();
                 }
             }
         }, function(){
@@ -53,20 +64,22 @@ document.getElementById('getLoc').addEventListener('click', async function(e) {
 
 function setDest(button){
     document.getElementById('destination').value = button.textContent;
-    inputChage();
+    inputChange();
 }
 
 var polylines = [];
 var markers = [];
 
-function drawPath(vertices, s, d) {
-    var sm = L.marker(vertices[0], {"title" : s}).addTo(map).bindPopup(s).openPopup();;
-    var dm = L.marker(vertices[vertices.length-1], {"title" : d}).addTo(map).bindPopup(d).openPopup();;
+function drawPath(vertices, s, d=-1, dis=0) {
+    var sm = L.marker(vertices[0], {"title" : s}).addTo(map).bindPopup(s).openPopup();
+    if (d!=-1){
+        var dm = L.marker(vertices[vertices.length-1], {"title" : d}).addTo(map).bindPopup(d + ", " + dis + "m away").openPopup();
+        markers.push(dm);
+        var path = L.polyline(vertices,  {"weight":5,"color":"#266bf2"}).addTo(map);
+        polylines.push(path);
+        map.fitBounds(path.getBounds());
+    }
     markers.push(sm);
-    markers.push(dm);
-    var path = L.polyline(vertices,  {"weight":5,"color":"#266bf2"}).addTo(map);
-    polylines.push(path);
-    map.fitBounds(path.getBounds());
 }
 
 document.getElementById('search_btn').addEventListener('click', async function(e) {
@@ -82,26 +95,36 @@ document.getElementById('search_btn').addEventListener('click', async function(e
     if (response.ok) {
         const data = await response.json();
         if (data.path != -1 && data.totalDistance != -1) {
-            document.getElementById('response').innerHTML = 'Your path: <br>' + source + " > " + data.path.join(" > ") + " > " + destination + ' <br><br> Distance: ' + data.totalDistance.toFixed(2) + 'm';
-            drawPath(data.pathCoords, source, destination);
+            document.getElementById('response').innerHTML = '';
+            if (isLocUsed) {
+                drawPath(sourceCoords.concat(data.pathCoords), "Current location", destination, data.totalDistance.toFixed(2));
+            }
+            else {
+                drawPath(data.pathCoords, source, destination, data.totalDistance.toFixed(2));
+            }
         }
         else if(data.path[0] == -1) {
             document.getElementById('response').innerHTML = 'The source does not exist.';
+            document.getElementById('response_container').style.display="flex";
+            document.getElementById('response').style.display="block";
         }
         else if (data.path[1] == -1) {
             document.getElementById('response').innerHTML = 'The destination does not exist.';
+            document.getElementById('response_container').style.display="flex";
+            document.getElementById('response').style.display="block";
         }
         getFloorandRoom();
-        document.getElementById('response_container').style.display="flex";
     }
     else {
         document.getElementById('response').innerHTML = 'Error retrieving path. Please try again.';
+        document.getElementById('response_container').style.display="flex";
+        document.getElementById('response').style.display="block";
     }
 });
 
-function inputChage(){
+function inputChange(){
     document.getElementById('response_container').style.display="none";
-    document.getElementById('response_container').style.display="none";
+    document.getElementById('response').style.display="none";
     polylines.forEach(function (item) {
         map.removeLayer(item)
     });
