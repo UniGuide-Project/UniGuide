@@ -1,0 +1,84 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniGuide</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+   
+     <div id="preloader">
+        <div class="welcome-text">Welcome to UniGuide</div>
+        <div id="loading-bar-container">
+            <div id="loading-bar"></div>
+        </div>
+    </div>
+    
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li onclick="navigateToPage('home')">Home</li>
+            <li onclick="navigateToPage('help')">Help & Support</li>
+            <li onclick="navigateToPage('about')">About Us</li>
+        </ul>
+    </div>
+
+
+
+    
+        <div class="container">
+
+        <div class="search_container">
+
+            <div class="header">
+                <div class="sidebar-icon" onclick="toggleSidebar()">☰</div>
+                <div class="title">UniGuide</div>
+            </div>
+            <div class="ipstuff">
+                <input type="text" id="source" placeholder="Start Location" onchange="inputChange()">
+                <button id="getLoc"><img src="cLoc.png" alt="getLocation"></button>
+            </div>
+            <input type="text" id="destination" placeholder="End Location" onchange="inputChange()">
+            
+            <div class="quick_access">
+                <button onclick="setDest(this, 'Hubble')">Hubble</button>
+                <button onclick="setDest(this, 'Gandhi Chowk')">Gandhi Chowk</button>
+                <button onclick="setDest(this, 'Food Court')">Food Court</button>
+                <button onclick="setDest(this, 'MAC')">MAC</button>
+            </div>
+            <button id="search_btn">Search</button>
+        </div>
+        <div id="response_container">
+            <p id="response"></p>
+            <table id="roominfo">
+                <tr>
+                    <th>Block</th>
+                    <th>Floor</th>
+                    <th>Room</th>
+                </tr>
+                <tr>
+                    <td id="block"></td>
+                    <td id="floor"></td>
+                    <td id="room"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="image_container">
+            <img id="zoomable-image" src="map.svg" alt="Campus Graph">
+            <div class="zoom-controls">
+                <button onclick="zoomIn()">+</button>
+                <button onclick="zoomOut()">-</button>
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+
+
+    <footer class="footer">
+        <p>&copy; 2024 UniGuide. All rights reserved.</p>
+        <p>Designed and Developed by UniGuide Team </p>
+    </footer>
+</body>
+</html>
